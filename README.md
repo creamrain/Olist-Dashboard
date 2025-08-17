@@ -38,3 +38,88 @@ Data Cleaning and Preparation
 6. Create a Date Table in DAX to assist with the analysis of data over Year and Month
 
 7. Create Measures Table to group measures for easier access to various measures
+
+### Learning
+- Data modelling (relationships, cardinality, cross filer)
+
+### Some Measures
+
+```
+ProductSold_Previous Year = 
+VAR PrevYearSales = CALCULATE(SUM(olist_order_items_dataset[number_of_items]),FILTER( ALL('Date'),'Date'[Year] = SELECTEDVALUE('Date'[Year]) - 1))
+
+RETURN
+COALESCE(PrevYearSales, 0)
+```
+
+```
+Top10 Item Rank CY = RANKX(ALL(product_category_name_translati[product_category_name_english]),[ProductsSold_SelectedYear])
+```
+
+``` 
+Top10 Item Rank PY = IF([ProductSold_Previous Year]=0,[Top10 Item Rank CY],RANKX(ALL(product_category_name_translati[product_category_name_english]),[ProductSold_Previous Year]))
+```
+
+```
+Top10 Ranking Development Label = 
+
+VAR _ItemRankChange = [Top10 Item Rank CY] - [Top10 Item Rank PY]
+
+VAR _ExtraSpace = REPT("‏‏‎ ‎",5)
+
+VAR _Label =
+SWITCH(TRUE(),
+    _ItemRankChange = 0,"#" & [Top10 Item Rank CY] & _ExtraSpace & "−",
+    _ItemRankChange > 0,"#" & [Top10 Item Rank CY] & _ExtraSpace & "▼"& _ItemRankChange,
+    _ItemRankChange < 0,"#" & [Top10 Item Rank CY] & _ExtraSpace & "▲"& ABS(_ItemRankChange)
+)
+
+RETURN
+_Label
+```
+
+```   
+YOY Color = 
+
+VAR Change = [ProductRevenue CY]-[ProductRevenue PY]
+
+VAR _Color =
+SWITCH(TRUE(),Change = 0, "grey",Change > 0, "green",Change < 0,"red")
+
+RETURN
+    _Color
+```
+
+```    
+Total Orders PY = 
+
+VAR OrdersPY = (CALCULATE([Total Orders],SAMEPERIODLASTYEAR('Date'[Date])))
+
+VAR IsSingleDate = HASONEVALUE('Date'[year])
+
+RETURN
+IF(IsSingleDate,COALESCE(OrdersPY, [Total Orders]),[Total Orders])
+```
+
+```
+YOY Total Orders = 
+
+VAR YOY = DIVIDE(([Total Orders]-[Total Orders PY]),[Total Orders PY],0)
+
+VAR Form =
+SWITCH(TRUE(),
+YOY=0,"YOY: "&FORMAT(YOY,"0.00%"),
+YOY>0,"YOY: "&"+"&FORMAT(YOY, "0.00%"),
+YOY<0,"YOY: "&"-"&FORMAT(YOY, "0.00%"))
+
+RETURN
+Form
+```
+
+```
+Average Cost Of Cancelled Products = CALCULATE(AVERAGE(olist_order_items_dataset[Individual Product Cost]),olist_orders_dataset[order_status]="canceled")
+```
+
+```
+Average Delays = ROUNDUP(AVERAGE(olist_orders_dataset[delay]),0)
+```
