@@ -123,3 +123,5 @@ Average Cost Of Cancelled Products = CALCULATE(AVERAGE(olist_order_items_dataset
 ```
 Average Delays = ROUNDUP(AVERAGE(olist_orders_dataset[delay]),0)
 ```
+
+### Key Takeaways
