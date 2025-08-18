@@ -127,3 +127,22 @@ Average Delays = ROUNDUP(AVERAGE(olist_orders_dataset[delay]),0)
 
 
 ### Key Takeaways
+1. In general, the total revenue and orders have increased over the years from 2016 to 2018
+
+2. Although there is a steep growth in revenue and orders from 2016 to 2017, it is important to exercise caution when interpreting these results. Data collection for 2016 only began in September, whereas the data for 2017 covers the entire year. This difference in data periods may affect the comparability of the growth figures.
+
+3. Based on the shape map, Sao Paulo(40295 orders) accounts for the greatest portion of orders. This is followed by its neighbouring states Minas Gerias(11255 orders) and Rio De Janeiro(12377 orders).
+
+4. Throughout the years, the top 10 product categories by revenue account for 62.62% of the total revenue 
+
+5. Most of the top 10 products by revenue exhibit seasonal sales patterns, with distinct peak periods during the year. For example, sales of Health Beauty products reach their highest point in August.
+
+6. The average delivery time is 13 days.
+
+7. The average delay is 11 days
+
+8. The average cost of canceled items is $195.36
+
+9. In general, most products are delivered on time(92.65%)
+
+10. Through a scatter plot of review scores by delays, it does not seem like there is a linear correlation between the 2 variables. Thus, this suggests that review scores might be influenced by other factors, such as product quality, rather than delivery delays alone.
